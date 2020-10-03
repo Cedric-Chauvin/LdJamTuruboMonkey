@@ -13,7 +13,6 @@ public class testVoiture : MonoBehaviour
     public WheelCollider backLeft;
     public WheelCollider backRight;
     public Rigidbody rigidbody;
-    public Transform massCenter;
 
     [Header("Speed var")]
     public float maxSpeed;
@@ -48,7 +47,7 @@ public class testVoiture : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.centerOfMass = massCenter.localPosition;
+        rigidbody.centerOfMass = Vector3.zero;
         wheels.Add(frontRight);
         wheels.Add(frontLeft);
         wheels.Add(backLeft);
