@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: MT_TurboPanda
-    second: {fileID: 2100000, guid: 524022f16e4aa8b4394ffef8ac0e683e, type: 2}
+    second: {fileID: 2100000, guid: 6c2544ca67f4c664bb0444a8a75ee107, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
