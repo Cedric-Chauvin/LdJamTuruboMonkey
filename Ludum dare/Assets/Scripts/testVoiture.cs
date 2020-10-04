@@ -13,6 +13,7 @@ public class testVoiture : MonoBehaviour
     public WheelCollider backLeft;
     public WheelCollider backRight;
     public Rigidbody rigidbody;
+    public Transform massCenter;
 
     [Header("Speed var")]
     public float maxSpeed;
@@ -21,44 +22,27 @@ public class testVoiture : MonoBehaviour
     public float brake = 30000;
 
     [Header("Turn var")]
-    public float maxAngle = 10;
-    public float driftValue = 10;
-    public float normaldriftValue = 0.2f;
+    public AnimationCurve turnCurve;
+    public float handBrakeFrictionMultiplier;
 
     private List<WheelCollider> wheels = new List<WheelCollider>();
-    private bool isDrifting 
-    {
-        set
-        {
-            foreach (var item in wheels)
-            {
-                WheelFrictionCurve sidewaysFriction = item.sidewaysFriction;
-                if (value)
-                    sidewaysFriction.extremumSlip = driftValue;
-                else
-                    sidewaysFriction.extremumSlip = normaldriftValue;
-                item.sidewaysFriction = sidewaysFriction;
-            }
-        }
-    }
 
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        rigidbody.centerOfMass = Vector3.zero;
+        rigidbody.centerOfMass = massCenter.localPosition;
         wheels.Add(frontRight);
         wheels.Add(frontLeft);
         wheels.Add(backLeft);
         wheels.Add(backRight);
-        WheelSetup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        speed = GetComponent<Rigidbody>().velocity.magnitude * 3.6f;
+        speed = rigidbody.velocity.magnitude * 3.6f;
 
         if (Input.GetKey(KeyCode.Z))
         {
@@ -66,6 +50,7 @@ public class testVoiture : MonoBehaviour
             backRight.brakeTorque = 0;
             backLeft.motorTorque = Time.deltaTime * Torque * coefAcceleration;
             backRight.motorTorque = Time.deltaTime * Torque * coefAcceleration;
+            rigidbody.drag = 0.005f;
         }
 
         if(!Input.GetKey(KeyCode.Z))
@@ -74,31 +59,64 @@ public class testVoiture : MonoBehaviour
             backRight.motorTorque = 0;
             backLeft.brakeTorque = Time.deltaTime * brake * coefAcceleration;
             backRight.brakeTorque = Time.deltaTime * brake * coefAcceleration;
+            rigidbody.drag = 1;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        /*if(Input.GetKeyDown(KeyCode.Space))
             isDrifting = true;
 
         if (Input.GetKeyUp(KeyCode.Space))
-            isDrifting = false;
+            isDrifting = false;*/
 
-        frontLeft.steerAngle = Input.GetAxis("Horizontal") * maxAngle;
-        frontRight.steerAngle = Input.GetAxis("Horizontal") * maxAngle;
-
+        SteerVehicle();
+        AddDownForce();
+        Friction();
     }
 
-    private void OnValidate()
+    private void SteerVehicle()
     {
-        WheelSetup();
-    }
-
-    void WheelSetup()
-    {
-        foreach (var item in wheels)
+        float horizontal = Input.GetAxis("Horizontal");
+        if (horizontal > 0)
         {
-            WheelFrictionCurve sidewaysFriction = item.sidewaysFriction;
-            sidewaysFriction.extremumSlip = normaldriftValue;
-            item.sidewaysFriction = sidewaysFriction;
+            //rear tracks size is set to 1.5f       wheel base has been set to 10
+            wheels[0].steerAngle = turnCurve.Evaluate(speed) * horizontal;
+            wheels[1].steerAngle = turnCurve.Evaluate(speed) * horizontal;
+        }
+        else if (horizontal < 0)
+        {
+            wheels[0].steerAngle = turnCurve.Evaluate(speed) * horizontal;
+            wheels[1].steerAngle = turnCurve.Evaluate(speed) * horizontal;
+            //transform.Rotate(Vector3.up * steerHelping);
+
+        }
+        else
+        {
+            wheels[0].steerAngle = 0;
+            wheels[1].steerAngle = 0;
+        }
+
+        Debug.Log(Mathf.Rad2Deg * Mathf.Atan(2f / (speed - (1.5f / 2))) * horizontal);
+
+    }
+
+    private void AddDownForce()
+    {
+        rigidbody.AddForce(-transform.up * 10 * rigidbody.velocity.magnitude);
+    }
+
+    private void Friction()
+    {
+        WheelFrictionCurve forwardFriction = wheels[0].forwardFriction;
+        WheelFrictionCurve sidewaysFriction = wheels[0].sidewaysFriction;
+
+        forwardFriction.extremumValue = forwardFriction.asymptoteValue = sidewaysFriction.extremumValue = sidewaysFriction.asymptoteValue =
+            ((speed * handBrakeFrictionMultiplier) / 300) + 1;
+
+        for (int i = 0; i < 4; i++)
+        {
+            wheels[i].forwardFriction = forwardFriction;
+            wheels[i].sidewaysFriction = sidewaysFriction;
+
         }
     }
 }
