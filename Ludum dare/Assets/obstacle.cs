@@ -10,14 +10,18 @@ public class obstacle : MonoBehaviour
     public float bumpForceMultiplier;
     public float bumpForceHeight;
     public float resetDistance = 50.0f;
+    public float slowAmount = 0.5f;
+    public float slowDuration = 1.5f;
     private Rigidbody _rb;
     private bool hasCollide = false;
     private Vector3 initPos;
     private Quaternion initRotation;
     private Transform player;
+    private controller carController;
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        carController = FindObjectOfType<controller>();
         initPos = transform.position;
         initRotation = transform.rotation;
     }
@@ -29,6 +33,7 @@ public class obstacle : MonoBehaviour
             Vector3 dir = ((transform.position - collision.transform.position).normalized) * bumpForceMultiplier;
             dir.y = bumpForceHeight;
             _rb.AddForce(dir, ForceMode.Impulse);
+            carController.ObstacleSlowDown(slowDuration, slowAmount);
             hasCollide = true;
         }
     }
@@ -41,7 +46,7 @@ public class obstacle : MonoBehaviour
     }
     private void Update()
     {
-        if(hasCollide)
+        if (hasCollide)
         {
             if (Vector3.Distance(initPos, player.position) >= resetDistance)
                 Reset();
