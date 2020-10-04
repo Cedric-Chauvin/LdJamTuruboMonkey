@@ -328,7 +328,7 @@ public class controller : MonoBehaviour
             else
                 playPauseSmoke = false;
 
-            if (wheelHit.collider.tag == "OffRoad")
+            if (wheelHit.collider && wheelHit.collider.tag == "OffRoad")
                 currentOffRoadValue = OffRoadMalus;
             else
                 currentOffRoadValue = 1;
@@ -379,8 +379,11 @@ public class controller : MonoBehaviour
     IEnumerator SlowDown(float time, float slow)
     {
         float timer = 0;
-        timer += 0.1f;
-        obstacleSlowValue = Mathf.Lerp(slow, 1, timer / time);
-        yield return new WaitForSeconds(0.1f);
+        while (timer<time)
+        {
+            timer += 0.1f;
+            obstacleSlowValue = Mathf.Lerp(slow, 1, timer / time);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
