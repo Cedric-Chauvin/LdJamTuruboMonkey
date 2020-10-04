@@ -128,7 +128,7 @@ using Random = UnityEngine.Random;
                     float accFade = 0;
                 // get values for fading the sounds based on the acceleration
        
-                    accFade = Mathf.Abs((InputManager.vertical > 0 && !m_CarController.test ) ?InputManager.vertical : 0);
+                    accFade = Mathf.Abs((Input.GetAxis("Vertical") > 0 && !m_CarController.test ) ? Input.GetAxis("Vertical") : 0);
 
                     float decFade = 1 - accFade;
 
