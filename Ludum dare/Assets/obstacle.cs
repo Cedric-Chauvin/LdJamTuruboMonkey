@@ -34,6 +34,7 @@ public class obstacle : MonoBehaviour
             dir.y = bumpForceHeight;
             _rb.AddForce(dir, ForceMode.Impulse);
             carController.ObstacleSlowDown(slowDuration, slowAmount);
+            RaceManager.Instance.nbOfCollision++;
             hasCollide = true;
         }
     }
