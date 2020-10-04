@@ -85,7 +85,7 @@ public class carEffects : MonoBehaviour
     }
 
     private void activateLights() {
-        if (IM.vertical < 0 || controller.KPH <= 1) turnLightsOn();
+        if (Input.GetAxis("Vertical") < 0 || controller.KPH <= 1) turnLightsOn();
         else turnLightsOff();
     }
 
@@ -104,7 +104,7 @@ public class carEffects : MonoBehaviour
     }
 
     private void chectDrift() {
-        if (IM.handbrake) startEmitter();
+        if (Input.GetKey(KeyCode.Space)) startEmitter();
         else stopEmitter();
 
     }

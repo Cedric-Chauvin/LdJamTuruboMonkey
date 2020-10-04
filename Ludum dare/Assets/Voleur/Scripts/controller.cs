@@ -12,10 +12,6 @@ public class controller : MonoBehaviour
     }
     [SerializeField]private driveType drive;
 
-
-    //other classes ->
-    private GameManager manager;
-    private inputManager IM;
     private carEffects CarEffects;
     [HideInInspector]public bool test; //engine sound boolean
 
@@ -67,8 +63,8 @@ public class controller : MonoBehaviour
 
         if(SceneManager.GetActiveScene().name == "awakeScene")return;
 
-        horizontal = IM.horizontal;
-        vertical = IM.vertical;
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
 
         
 
@@ -127,11 +123,9 @@ public class controller : MonoBehaviour
  
         if(wheelsRPM < 0 && !reverse ){
             reverse = true;
-            if (gameObject.tag != "AI") manager.changeGear();
         }
         else if(wheelsRPM > 0 && reverse){
             reverse = false;
-            if (gameObject.tag != "AI") manager.changeGear();
         }
     }
 
@@ -144,14 +138,12 @@ public class controller : MonoBehaviour
 
         if(!isGrounded())return;
             //automatic
-        if(engineRPM > maxRPM && gearNum < gears.Length-1 && !reverse && checkGears() ){
+        if(engineRPM > maxRPM && gearNum < gears.Length-1 && !reverse && checkGears()){
             gearNum ++;
-            if(gameObject.tag != "AI") manager.changeGear();
             return;
         }
         if(engineRPM < minRPM && gearNum > 0){
             gearNum --;
-            if (gameObject.tag != "AI") manager.changeGear();
         }
 
     }
@@ -246,9 +238,7 @@ public class controller : MonoBehaviour
 	}
    
     private void getObjects(){
-        IM = GetComponent<inputManager>();
         //else aIcontroller = GetComponent<AIcontroller>();
-        manager = GameObject.FindGameObjectWithTag("gameManager").GetComponent<GameManager>();
         CarEffects = GetComponent<carEffects>();
         rigidbody = GetComponent<Rigidbody>();
         wheelColliders = gameObject.transform.Find("wheelColliders").gameObject;
@@ -281,7 +271,7 @@ public class controller : MonoBehaviour
             //tine it takes to go from normal drive to drift 
         float driftSmothFactor = .7f * Time.deltaTime;
 
-		if(IM.handbrake){
+		if(Input.GetKey(KeyCode.Space)){
             sidewaysFriction = wheels[0].sidewaysFriction;
             forwardFriction = wheels[0].forwardFriction;
 
@@ -331,9 +321,9 @@ public class controller : MonoBehaviour
                 playPauseSmoke = false;
                         
 
-			if(wheelHit.sidewaysSlip < 0 )	driftFactor = (1 + -IM.horizontal) * Mathf.Abs(wheelHit.sidewaysSlip) ;
+			if(wheelHit.sidewaysSlip < 0 )	driftFactor = (1 + -Input.GetAxis("Horizontal")) * Mathf.Abs(wheelHit.sidewaysSlip) ;
 
-			if(wheelHit.sidewaysSlip > 0 )	driftFactor = (1 + IM.horizontal )* Mathf.Abs(wheelHit.sidewaysSlip );
+			if(wheelHit.sidewaysSlip > 0 )	driftFactor = (1 + Input.GetAxis("Horizontal"))* Mathf.Abs(wheelHit.sidewaysSlip );
 		}	
 		
 	}
@@ -347,14 +337,15 @@ public class controller : MonoBehaviour
 	}
 
     public void activateNitrus(){
-        if (!IM.boosting && nitrusValue <= 10 ){
+        if (!Input.GetKey(KeyCode.LeftShift) && nitrusValue <= 10 ){
             nitrusValue += Time.deltaTime / 2;
         }
         else{
             nitrusValue -= (nitrusValue <= 0 ) ? 0 : Time.deltaTime;
         }
 
-        if (IM.boosting){
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
             if (nitrusValue > 0) { 
                 CarEffects.startNitrusEmitter();
                 rigidbody.AddForce(transform.forward * 5000);
