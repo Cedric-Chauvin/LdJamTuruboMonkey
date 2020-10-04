@@ -52,7 +52,7 @@ public class controller : MonoBehaviour
     private float radius = 6, brakPower = 0, DownForceValue = 10f,wheelsRPM ,driftFactor, lastValue ,horizontal , vertical,totalPower;
     private bool flag=false;
 
-    private float obstacleSlowValue = 1;
+    private float obstacleSlowValue = 0;
     private Coroutine SlowRoutine;
 
 
@@ -168,12 +168,12 @@ public class controller : MonoBehaviour
 
         if (drive == driveType.allWheelDrive){
             for (int i = 0; i < wheels.Length; i++){
-                wheels[i].motorTorque = (totalPower / 4) * currentOffRoadValue * obstacleSlowValue;
+                wheels[i].motorTorque = (totalPower / 4) * currentOffRoadValue ;
                 wheels[i].brakeTorque = brakPower;
             }
         }else if(drive == driveType.rearWheelDrive){
-            wheels[2].motorTorque = (totalPower / 2)* currentOffRoadValue * obstacleSlowValue;
-            wheels[3].motorTorque = (totalPower / 2) * currentOffRoadValue * obstacleSlowValue;
+            wheels[2].motorTorque = (totalPower / 2)* currentOffRoadValue ;
+            wheels[3].motorTorque = (totalPower / 2) * currentOffRoadValue ;
 
             for (int i = 0; i < wheels.Length; i++)
             {
@@ -181,15 +181,14 @@ public class controller : MonoBehaviour
             }
         }
         else{
-            wheels[0].motorTorque = (totalPower / 2) * currentOffRoadValue * obstacleSlowValue;
-            wheels[1].motorTorque = (totalPower / 2) * currentOffRoadValue * obstacleSlowValue;
+            wheels[0].motorTorque = (totalPower / 2) * currentOffRoadValue ;
+            wheels[1].motorTorque = (totalPower / 2) * currentOffRoadValue;
 
             for (int i = 0; i < wheels.Length; i++)
             {
                 wheels[i].brakeTorque = brakPower;
             }
         }
-
         KPH = rigidbody.velocity.magnitude * 3.6f;
         UIManager.Instance.updateSpeed(KPH);
 
@@ -373,17 +372,22 @@ public class controller : MonoBehaviour
     {
         if (SlowRoutine!=null)
             StopCoroutine(SlowRoutine);
-        StartCoroutine(SlowDown(time, slow));
+        //SlowRoutine = StartCoroutine(SlowDown(time, slow));
+        Debug.Log(-transform.forward * slow * rigidbody.velocity.magnitude * 2);
+        rigidbody.AddForce(-transform.forward * slow*rigidbody.velocity.magnitude*5000);
+        
     }
 
     IEnumerator SlowDown(float time, float slow)
     {
         float timer = 0;
+        obstacleSlowValue += slow;
         while (timer<time)
         {
             timer += 0.1f;
-            obstacleSlowValue = Mathf.Lerp(slow, 1, timer / time);
             yield return new WaitForSeconds(0.1f);
         }
+        obstacleSlowValue -= slow;
+        SlowRoutine = null;
     }
 }
