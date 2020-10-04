@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class controller : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class controller : MonoBehaviour
     private bool flag=false;
 
 
-
+    public List<Text> texts = new List<Text>();
 
     private void Awake() {
 
@@ -315,7 +316,8 @@ public class controller : MonoBehaviour
 
             wheels[i].GetGroundHit(out wheelHit);
                 //smoke
-            if(wheelHit.sidewaysSlip >= 0.3f || wheelHit.sidewaysSlip <= -0.3f ||wheelHit.forwardSlip >= .3f || wheelHit.forwardSlip <= -0.3f)
+
+            if(wheelHit.sidewaysSlip >= 0.3f || wheelHit.sidewaysSlip <= -0.3f)
                 playPauseSmoke = true;
             else
                 playPauseSmoke = false;
