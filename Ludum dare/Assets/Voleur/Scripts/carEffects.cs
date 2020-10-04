@@ -104,7 +104,7 @@ public class carEffects : MonoBehaviour
     }
 
     private void chectDrift() {
-        if (Input.GetKey(KeyCode.Space)) startEmitter();
+        if (Input.GetKey(KeyCode.Space)&& controller.isGrounded() ) startEmitter();
         else stopEmitter();
 
     }

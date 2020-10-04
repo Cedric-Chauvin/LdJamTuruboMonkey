@@ -17,6 +17,7 @@ public class controller : MonoBehaviour
     [HideInInspector]public bool test; //engine sound boolean
 
     [Header("Variables")]
+    public float turnMultiplicateur = 1;
     public float handBrakeFrictionMultiplier = 2f;
     public float maxRPM , minRPM;
     public float[] gears;
@@ -57,7 +58,7 @@ public class controller : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "awakeScene")return;
         getObjects();
         StartCoroutine(timedLoop());
-
+        Time.timeScale = turnMultiplicateur;
     }
 
     private void Update() {
@@ -149,7 +150,7 @@ public class controller : MonoBehaviour
 
     }
  
-    private bool isGrounded(){
+    public bool isGrounded(){
         if(wheels[0].isGrounded &&wheels[1].isGrounded &&wheels[2].isGrounded &&wheels[3].isGrounded )
             return true;
         else
