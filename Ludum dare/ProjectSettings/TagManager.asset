@@ -7,6 +7,7 @@ TagManager:
   - toDestroy
   - gameManager
   - path
+  - OffRoad
   layers:
   - Default
   - TransparentFX

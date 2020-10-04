@@ -23,6 +23,7 @@ public class controller : MonoBehaviour
     public float[] gears;
     public float[] gearChangeSpeed;
     public AnimationCurve enginePower;
+    public float OffRoadMalus = 0.7f;
 
 
     [HideInInspector]public int gearNum = 1;
@@ -44,6 +45,7 @@ public class controller : MonoBehaviour
     public int carPrice ;
     public string carName;
     private float smoothTime = 0.09f;
+    private float currentOffRoadValue = 1;
 
 
 	private WheelFrictionCurve  forwardFriction,sidewaysFriction;
@@ -163,12 +165,12 @@ public class controller : MonoBehaviour
 
         if (drive == driveType.allWheelDrive){
             for (int i = 0; i < wheels.Length; i++){
-                wheels[i].motorTorque = totalPower / 4;
+                wheels[i].motorTorque = (totalPower / 4)*currentOffRoadValue;
                 wheels[i].brakeTorque = brakPower;
             }
         }else if(drive == driveType.rearWheelDrive){
-            wheels[2].motorTorque = totalPower / 2;
-            wheels[3].motorTorque = totalPower / 2;
+            wheels[2].motorTorque = (totalPower / 2)* currentOffRoadValue;
+            wheels[3].motorTorque = (totalPower / 2) * currentOffRoadValue;
 
             for (int i = 0; i < wheels.Length; i++)
             {
@@ -176,8 +178,8 @@ public class controller : MonoBehaviour
             }
         }
         else{
-            wheels[0].motorTorque = totalPower / 2;
-            wheels[1].motorTorque = totalPower / 2;
+            wheels[0].motorTorque = (totalPower / 2) * currentOffRoadValue;
+            wheels[1].motorTorque = (totalPower / 2) * currentOffRoadValue;
 
             for (int i = 0; i < wheels.Length; i++)
             {
@@ -322,6 +324,11 @@ public class controller : MonoBehaviour
                 playPauseSmoke = true;
             else
                 playPauseSmoke = false;
+
+            if (wheelHit.collider.tag == "OffRoad")
+                currentOffRoadValue = OffRoadMalus;
+            else
+                currentOffRoadValue = 1;
                         
 
 			if(wheelHit.sidewaysSlip < 0 )	driftFactor = (1 + -Input.GetAxis("Horizontal")) * Mathf.Abs(wheelHit.sidewaysSlip) ;
