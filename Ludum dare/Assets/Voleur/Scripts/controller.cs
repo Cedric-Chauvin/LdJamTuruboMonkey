@@ -52,7 +52,7 @@ public class controller : MonoBehaviour
     private float radius = 6, brakPower = 0, DownForceValue = 10f,wheelsRPM ,driftFactor, lastValue ,horizontal , vertical,totalPower;
     private bool flag=false;
 
-    private float obstacleSlowValue;
+    private float obstacleSlowValue = 1;
     private Coroutine SlowRoutine;
 
 
