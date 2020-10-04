@@ -15,6 +15,7 @@ public class RaceManager : MonoBehaviour
     public float timeBetweenCheckpoints = 10.0f;
     public float timer = 0.0f;
     public int checkPointId = 0;
+    public int nbOfCollision = 0;
 
     private void Awake()
     {
@@ -39,7 +40,8 @@ public class RaceManager : MonoBehaviour
             else
                 checkPointId = 0;
 
-            timer = timeBetweenCheckpoints;
+            timer = timeBetweenCheckpoints - nbOfCollision;
+            nbOfCollision = 0;
         }
     }
 
