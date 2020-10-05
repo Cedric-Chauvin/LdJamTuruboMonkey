@@ -43,7 +43,7 @@ public class RaceManager : MonoBehaviour
         Debug.Log("Checkpoint Reached");
         if(checkpoints[checkPointId] == reached)
         {
-            if (checkPointId < checkpoints.Count - 1)
+            if (checkPointId <= checkpoints.Count - 1)
                 checkPointId++;
             else
             {
