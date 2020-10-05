@@ -56,7 +56,7 @@ public class controller : MonoBehaviour
     private Coroutine SlowRoutine;
 
 
-    public List<Text> texts = new List<Text>();
+    public float testRotation;
 
     private void Awake() {
 
@@ -212,8 +212,10 @@ public class controller : MonoBehaviour
 
 
         //acerman steering formula
-		//steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontalInput;
-         
+        //steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontalInput;
+
+        Debug.Log(Mathf.Rad2Deg * Mathf.Atan(2.55f / (testRotation + (1.5f / 2))));
+
         if (horizontal > 0 ) {
 				//rear tracks size is set to 1.5f       wheel base has been set to 2.55f
             wheels[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontal;
@@ -342,7 +344,7 @@ public class controller : MonoBehaviour
 	private IEnumerator timedLoop(){
 		while(true){
 			yield return new WaitForSeconds(.7f);
-            radius = 6 + KPH / 20;
+            radius = 6 + KPH /5;
             
 		}
 	}
