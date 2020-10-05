@@ -23,7 +23,7 @@ public class controller : MonoBehaviour
     public float[] gears;
     public float[] gearChangeSpeed;
     public AnimationCurve enginePower;
-    public float OffRoadMalus = 0.7f;
+    public float OffRoadMalus = 1;
 
 
     public int gearNum = 1;
@@ -63,7 +63,6 @@ public class controller : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "awakeScene")return;
         getObjects();
         StartCoroutine(timedLoop());
-        Time.timeScale = turnMultiplicateur;
     }
 
     private void Update() {
@@ -168,25 +167,25 @@ public class controller : MonoBehaviour
 
         if (drive == driveType.allWheelDrive){
             for (int i = 0; i < wheels.Length; i++){
-                wheels[i].motorTorque = (totalPower / 4) * currentOffRoadValue ;
-                wheels[i].brakeTorque = brakPower;
+                wheels[i].motorTorque = ((totalPower / 4) * turnMultiplicateur)/ (OffRoadMalus * 10);
+                wheels[i].brakeTorque = brakPower * turnMultiplicateur;
             }
         }else if(drive == driveType.rearWheelDrive){
-            wheels[2].motorTorque = (totalPower / 2)* currentOffRoadValue ;
-            wheels[3].motorTorque = (totalPower / 2) * currentOffRoadValue ;
+            wheels[2].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus * 10);
+            wheels[3].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus * 10);
 
             for (int i = 0; i < wheels.Length; i++)
             {
-                wheels[i].brakeTorque = brakPower;
+                wheels[i].brakeTorque = brakPower * turnMultiplicateur;
             }
         }
         else{
-            wheels[0].motorTorque = (totalPower / 2) * currentOffRoadValue ;
-            wheels[1].motorTorque = (totalPower / 2) * currentOffRoadValue;
+            wheels[0].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus * 10);
+            wheels[1].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus*10);
 
             for (int i = 0; i < wheels.Length; i++)
             {
-                wheels[i].brakeTorque = brakPower;
+                wheels[i].brakeTorque = brakPower * turnMultiplicateur;
             }
         }
         KPH = rigidbody.velocity.magnitude * 3.6f;
