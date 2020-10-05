@@ -61,6 +61,7 @@ public class RaceManager : MonoBehaviour
         if(timer > 0)
         {
             timer -= Time.deltaTime;
+            UIManager.Instance.updateTimer(timer,timeBetweenCheckpoints);
             totalTimer += Time.deltaTime;
         }
         else
