@@ -24,11 +24,16 @@ public class UIManager : MonoBehaviour
     public Image timerFill;
     public Text timerText;
     public Text speedText;
+    public Text totalTimer;
+    public Text laps;
 
-    public void updateTimer(float time,float maxTime)
+    public void updateTimer(float time,float maxTime,float maxTimer)
     {
         timerText.text = time.ToString();
         timerFill.fillAmount = time/maxTime;
+        string minutes = Mathf.Floor(maxTimer / 60).ToString("00");
+        string seconds = (maxTimer % 60).ToString("00");
+        totalTimer.text = string.Format("{0}:{1}", minutes, seconds);
     }
 
     public void updateSpeed(float kph)

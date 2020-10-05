@@ -45,13 +45,15 @@ public class RaceManager : MonoBehaviour
             {
                 checkPointId = 0;
                 nbLaps++;
+                UIManager.Instance.laps.text = nbLaps.ToString();
             }
 
             foreach (obstacle o in obstaclesToReset)
                 o.Reset();
 
             obstaclesToReset.Clear();
-            timer = checkpoints[checkPointId].timeToReach - nbOfCollision;
+            timer = checkpoints[checkPointId].timeToReach;
+            timeBetweenCheckpoints = checkpoints[checkPointId].timeToReach;
             nbOfCollision = 0;
         }
     }
@@ -61,7 +63,7 @@ public class RaceManager : MonoBehaviour
         if(timer > 0)
         {
             timer -= Time.deltaTime;
-            UIManager.Instance.updateTimer(timer,timeBetweenCheckpoints);
+            UIManager.Instance.updateTimer(timer,timeBetweenCheckpoints,totalTimer);
             totalTimer += Time.deltaTime;
         }
         else
