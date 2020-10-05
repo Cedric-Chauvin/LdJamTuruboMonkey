@@ -196,7 +196,7 @@ public class controller : MonoBehaviour
     private void brakeVehicle(){
 
         if (vertical < 0){
-            brakPower =(KPH >= 10)? 500 : 0;
+            brakPower =(KPH >= 50)? 500 : 0;
         }
         else if (vertical == 0 &&(KPH <= 10 || KPH >= -10)){
             brakPower = 10;
