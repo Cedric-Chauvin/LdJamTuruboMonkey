@@ -1,6 +1,6 @@
-Layer Selection: Terrain
+Layer Selection: Default
 Brush Max Size: 10
-Brush Size: 10
+Brush Size: 8,22
 Fill Mode: True
 Fill Rate: 0,194
 
