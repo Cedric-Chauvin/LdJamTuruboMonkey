@@ -6,7 +6,10 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
 
-
+    private void Awake()
+    {
+        Time.timeScale = 1.0f;
+    }
     public void Quit()
     {
         Application.Quit();

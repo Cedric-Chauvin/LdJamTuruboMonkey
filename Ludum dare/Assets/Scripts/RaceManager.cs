@@ -51,9 +51,11 @@ public class RaceManager : MonoBehaviour
             foreach (obstacle o in obstaclesToReset)
                 o.Reset();
 
+            int bonusTime = 0;
+            if (obstaclesToReset.Count < 1) bonusTime = 10;
             obstaclesToReset.Clear();
             timer = checkpoints[checkPointId].timeToReach;
-            timeBetweenCheckpoints = checkpoints[checkPointId].timeToReach;
+            timeBetweenCheckpoints = checkpoints[checkPointId].timeToReach + bonusTime;
             nbOfCollision = 0;
         }
     }
@@ -68,7 +70,7 @@ public class RaceManager : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 0.0f;
+            UIManager.Instance.End();
         }
     }
 
