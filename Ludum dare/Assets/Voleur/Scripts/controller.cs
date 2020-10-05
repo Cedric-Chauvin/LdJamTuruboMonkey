@@ -55,9 +55,6 @@ public class controller : MonoBehaviour
     private float obstacleSlowValue = 0;
     private Coroutine SlowRoutine;
 
-
-    public float testRotation;
-
     private void Awake() {
 
         if(SceneManager.GetActiveScene().name == "awakeScene")return;
@@ -214,8 +211,6 @@ public class controller : MonoBehaviour
         //acerman steering formula
         //steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontalInput;
 
-        Debug.Log(Mathf.Rad2Deg * Mathf.Atan(2.55f / (testRotation + (1.5f / 2))));
-
         if (horizontal > 0 ) {
 				//rear tracks size is set to 1.5f       wheel base has been set to 2.55f
             wheels[0].steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontal;
@@ -297,7 +292,6 @@ public class controller : MonoBehaviour
                 wheels [i].sidewaysFriction = sidewaysFriction;
                 wheels [i].forwardFriction = forwardFriction;
             }
-            rigidbody.AddForce(transform.forward * (KPH / 400) * 10000 );
 		}
             //executed when handbrake is being held
         else{
