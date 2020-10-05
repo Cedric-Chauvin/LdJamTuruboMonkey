@@ -492,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drive: 1
   test: 0
-  turnMultiplicateur: 0.8
+  turnMultiplicateur: 1
   handBrakeFrictionMultiplier: 10
   maxRPM: 8000
   minRPM: 5000
