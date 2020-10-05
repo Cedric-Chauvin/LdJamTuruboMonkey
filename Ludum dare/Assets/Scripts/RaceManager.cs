@@ -16,6 +16,8 @@ public class RaceManager : MonoBehaviour
     public int checkPointId = 0;
     public int nbOfCollision = 0;
     public int nbLaps = 0;
+    public float bestLap = 999f;
+    public float lapTimer = 0f;
     public float totalTimer = 0.0f;
     public List<obstacle> obstaclesToReset = new List<obstacle>();
     bool canCollide = true;
@@ -45,6 +47,9 @@ public class RaceManager : MonoBehaviour
             {
                 checkPointId = 0;
                 nbLaps++;
+                if (lapTimer < bestLap)
+                    bestLap = lapTimer;
+                lapTimer = 0f;
                 UIManager.Instance.laps.text = nbLaps.ToString();
             }
 
@@ -65,6 +70,7 @@ public class RaceManager : MonoBehaviour
         if(timer > 0)
         {
             timer -= Time.deltaTime;
+            lapTimer += Time.deltaTime;
             UIManager.Instance.updateTimer(timer,timeBetweenCheckpoints,totalTimer);
             totalTimer += Time.deltaTime;
         }
