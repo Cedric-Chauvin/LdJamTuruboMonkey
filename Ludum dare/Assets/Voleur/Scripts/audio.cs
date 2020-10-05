@@ -28,6 +28,7 @@ using Random = UnityEngine.Random;
         }
 
         public EngineAudioOptions engineSoundStyle = EngineAudioOptions.FourChannel;// Set the default audio options to be four channel
+        public AudioClip startEngine;
         public AudioClip lowAccelClip;                                              // Audio clip for low acceleration
         public AudioClip lowDecelClip;                                              // Audio clip for low deceleration
         public AudioClip highAccelClip;                                             // Audio clip for high acceleration
@@ -40,6 +41,7 @@ using Random = UnityEngine.Random;
         public float dopplerLevel = 1;                                              // The mount of doppler effect used in the audio
         public bool useDoppler = true;                                              // Toggle for using doppler
 
+        private AudioSource startEngineSource;
         private AudioSource m_LowAccel; // Source for the low acceleration sounds
         private AudioSource m_LowDecel; // Source for the low deceleration sounds
         private AudioSource m_HighAccel; // Source for the high acceleration sounds
@@ -49,8 +51,24 @@ using Random = UnityEngine.Random;
         public controller m_CarController;
         public inputManager InputManager;
         private AIcontroller aicontroler;
-        
-        private void StartSound()
+        private bool canStart;
+
+    private void Start()
+    {
+        startEngineSource = SetUpEngineAudioSource(startEngine);
+        startEngineSource.loop = false;
+        startEngineSource.volume = 1.5f;
+        startEngineSource.pitch = 0.9f;
+        Invoke("CanStart", 0.4f);
+    }
+
+    private void CanStart()
+    {
+        canStart = true;
+        startEngineSource.Stop();
+    }
+
+    private void StartSound()
         {
             // get the carcontroller ( this will not be null as we have require component)
             //m_CarController = GetComponent<CarController>();
@@ -61,6 +79,7 @@ using Random = UnityEngine.Random;
             // if we have four channel audio setup the four audio sources
             if (engineSoundStyle == EngineAudioOptions.FourChannel)
             {
+                //pointMortSource = SetUpEngineAudioSource(pointMort);
                 m_LowAccel = SetUpEngineAudioSource(lowAccelClip);
                 m_LowDecel = SetUpEngineAudioSource(lowDecelClip);
                 m_HighDecel = SetUpEngineAudioSource(highDecelClip);
@@ -96,7 +115,7 @@ using Random = UnityEngine.Random;
             }
 
             // start the sound if not playing and it is nearer than the maximum distance
-            if (!m_StartedSound && camDist < maxRolloffDistance*maxRolloffDistance)
+            if (!m_StartedSound && camDist < maxRolloffDistance*maxRolloffDistance && canStart)
             {
                 StartSound();
             }

@@ -26,7 +26,7 @@ public class controller : MonoBehaviour
     public float OffRoadMalus = 0.7f;
 
 
-    [HideInInspector]public int gearNum = 1;
+    public int gearNum = 1;
     [HideInInspector]public bool playPauseSmoke = false,hasFinished;
     [HideInInspector]public float KPH;
     [HideInInspector]public float engineRPM;

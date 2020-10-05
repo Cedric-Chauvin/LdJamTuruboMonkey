@@ -9,10 +9,12 @@ public class carEffects : MonoBehaviour
     public TrailRenderer[] tireMarks;
     public ParticleSystem[] smoke;
     public ParticleSystem[] nitrusSmoke;
+    public GameObject fxSpeed;
     //public GameObject lights;
     private controller controller;
     private inputManager IM;
     private bool smokeFlag  = false , lightsFlag = false , tireMarksFlag;
+    private bool highSpeed;
 
     //do lights in here 
     private void Start() {
@@ -28,7 +30,17 @@ public class carEffects : MonoBehaviour
         chectDrift();
         activateSmoke();
         activateLights();
-    }
+        if (controller.gearNum >= 4 && !highSpeed)
+        {
+            fxSpeed.SetActive(true);
+            highSpeed = true;
+        }
+        else if (controller.gearNum < 4 && highSpeed)
+        {
+            fxSpeed.SetActive(false);
+            highSpeed = false;
+        }
+}
 
     private void activateSmoke(){
         if (controller.playPauseSmoke) startSmoke();
