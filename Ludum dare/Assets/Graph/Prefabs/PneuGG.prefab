@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 1284413631804954083}
   - component: {fileID: 2773369586234972742}
   - component: {fileID: 114854676213051020}
-  - component: {fileID: 7018015386265655796}
+  - component: {fileID: 6935202760699080568}
+  - component: {fileID: 8119063100978507512}
+  - component: {fileID: 8717081481385767970}
   m_Layer: 0
   m_Name: PneuGG
   m_TagString: Untagged
@@ -82,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7018015386265655796
+--- !u!65 &6935202760699080568
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,5 +95,31 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.754075, y: 4.625704, z: 3.0821464}
-  m_Center: {x: 0.5992818, y: 0.053970814, z: 1.3873637}
+  m_Size: {x: 10.361474, y: 2.0336347, z: 3.0821464}
+  m_Center: {x: 0.058674335, y: -0.032717198, z: 1.3873637}
+--- !u!65 &8119063100978507512
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916554079926423385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5846729, y: 2.073547, z: 1.914599}
+  m_Center: {x: 5.464999, y: -1.1858356, z: 0.8035898}
+--- !u!65 &8717081481385767970
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916554079926423385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0466092, y: 1.832411, z: 1.8487194}
+  m_Center: {x: -3.0653663, y: 1.2011377, z: 0.77065}
