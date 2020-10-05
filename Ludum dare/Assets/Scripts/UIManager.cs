@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     public GameObject scorePanel;
     public Text timePanel;
     public Text lapsPanel;
+    public Text bestLapPanel;
     public void updateTimer(float time,float maxTime,float maxTimer)
     {
         timerText.text = time.ToString();
@@ -52,6 +53,12 @@ public class UIManager : MonoBehaviour
     {
         string minutes = Mathf.Floor(RaceManager.Instance.totalTimer / 60).ToString("00");
         string seconds = (RaceManager.Instance.totalTimer % 60).ToString("00");
+        if(RaceManager.Instance.bestLap != 999f)
+        {
+            string mLap = Mathf.Floor(RaceManager.Instance.bestLap / 60).ToString("00");
+            string sLap = (RaceManager.Instance.bestLap % 60).ToString("00");
+            bestLapPanel.text = string.Format("{0}:{1}", mLap, sLap);
+        }
         timePanel.text = string.Format("{0}:{1}", minutes, seconds);
         lapsPanel.text = laps.text;
         scorePanel.SetActive(true);
