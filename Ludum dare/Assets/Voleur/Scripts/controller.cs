@@ -45,7 +45,7 @@ public class controller : MonoBehaviour
     public int carPrice ;
     public string carName;
     private float smoothTime = 0.09f;
-    private float currentOffRoadValue = 1;
+    private float currentOffRoadValue = 0;
 
 
 	private WheelFrictionCurve  forwardFriction,sidewaysFriction;
