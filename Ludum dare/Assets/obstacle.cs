@@ -9,7 +9,6 @@ public class obstacle : MonoBehaviour
 {
     public float bumpForceMultiplier;
     public float bumpForceHeight;
-    public float resetDistance = 50.0f;
     public float slowAmount = 0.5f;
     public float slowDuration = 1.5f;
     private Rigidbody _rb;
@@ -34,7 +33,8 @@ public class obstacle : MonoBehaviour
             dir.y = bumpForceHeight;
             _rb.AddForce(dir, ForceMode.Impulse);
             carController.ObstacleSlowDown(slowDuration, slowAmount);
-            RaceManager.Instance.nbOfCollision++;
+            RaceManager.Instance.AddCollision();
+            RaceManager.Instance.obstaclesToReset.Add(this);
             hasCollide = true;
         }
     }
@@ -47,11 +47,7 @@ public class obstacle : MonoBehaviour
     }
     private void Update()
     {
-        if (hasCollide)
-        {
-            if (Vector3.Distance(initPos, player.position) >= resetDistance)
-                Reset();
-        }
+
     }
 
 }

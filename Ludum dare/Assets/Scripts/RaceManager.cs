@@ -10,19 +10,23 @@ public class RaceManager : MonoBehaviour
         get { return _instance; }
     }
 
-
     public List<Checkpoint> checkpoints;
     public float timeBetweenCheckpoints = 10.0f;
     public float timer = 0.0f;
     public int checkPointId = 0;
     public int nbOfCollision = 0;
-
+    public int nbLaps = 0;
+    public float totalTimer = 0.0f;
+    public List<obstacle> obstaclesToReset = new List<obstacle>();
+    bool canCollide = true;
     private void Awake()
     {
         if (_instance != null && _instance != this)
             Destroy(this.gameObject);
         else
             _instance = this;
+
+        Time.timeScale = 1.0f;
     }
 
     void Start()
@@ -38,9 +42,16 @@ public class RaceManager : MonoBehaviour
             if (checkPointId < checkpoints.Count - 1)
                 checkPointId++;
             else
+            {
                 checkPointId = 0;
+                nbLaps++;
+            }
 
-            timer = timeBetweenCheckpoints - nbOfCollision;
+            foreach (obstacle o in obstaclesToReset)
+                o.Reset();
+
+            obstaclesToReset.Clear();
+            timer = checkpoints[checkPointId].timeToReach - nbOfCollision;
             nbOfCollision = 0;
         }
     }
@@ -50,10 +61,27 @@ public class RaceManager : MonoBehaviour
         if(timer > 0)
         {
             timer -= Time.deltaTime;
+            totalTimer += Time.deltaTime;
         }
         else
         {
-            //t nul
+            Time.timeScale = 0.0f;
         }
+    }
+
+    public void AddCollision()
+    {
+        if(canCollide)
+        {
+            canCollide = false;
+            StartCoroutine("CollideCoroutine");
+        }
+    }
+
+    private IEnumerator CollideCoroutine()
+    {
+        nbOfCollision++;
+        yield return new WaitForSeconds(1f);
+        canCollide = true;
     }
 }
