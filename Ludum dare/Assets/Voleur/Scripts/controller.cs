@@ -45,7 +45,7 @@ public class controller : MonoBehaviour
     public int carPrice ;
     public string carName;
     private float smoothTime = 0.09f;
-    private float currentOffRoadValue = 0;
+    private float currentOffRoadValue = 0.1f;
 
 
 	private WheelFrictionCurve  forwardFriction,sidewaysFriction;
@@ -167,12 +167,12 @@ public class controller : MonoBehaviour
 
         if (drive == driveType.allWheelDrive){
             for (int i = 0; i < wheels.Length; i++){
-                wheels[i].motorTorque = ((totalPower / 4) * turnMultiplicateur)/ (OffRoadMalus * 10);
+                wheels[i].motorTorque = ((totalPower / 4) * turnMultiplicateur)/ (currentOffRoadValue * 10);
                 wheels[i].brakeTorque = brakPower * turnMultiplicateur;
             }
         }else if(drive == driveType.rearWheelDrive){
-            wheels[2].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus * 10);
-            wheels[3].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus * 10);
+            wheels[2].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (currentOffRoadValue * 10);
+            wheels[3].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (currentOffRoadValue * 10);
 
             for (int i = 0; i < wheels.Length; i++)
             {
@@ -180,8 +180,8 @@ public class controller : MonoBehaviour
             }
         }
         else{
-            wheels[0].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus * 10);
-            wheels[1].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (OffRoadMalus*10);
+            wheels[0].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (currentOffRoadValue * 10);
+            wheels[1].motorTorque = ((totalPower / 2) * turnMultiplicateur) / (currentOffRoadValue * 10);
 
             for (int i = 0; i < wheels.Length; i++)
             {
@@ -329,7 +329,7 @@ public class controller : MonoBehaviour
             if (wheelHit.collider && wheelHit.collider.tag == "OffRoad")
                 currentOffRoadValue = OffRoadMalus;
             else
-                currentOffRoadValue = 0;
+                currentOffRoadValue = 0.1f;
                         
 
 			if(wheelHit.sidewaysSlip < 0 )	driftFactor = (1 + -Input.GetAxis("Horizontal")) * Mathf.Abs(wheelHit.sidewaysSlip) ;
