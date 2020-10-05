@@ -9,6 +9,7 @@ public class carEffects : MonoBehaviour
     public TrailRenderer[] tireMarks;
     public ParticleSystem[] smoke;
     public ParticleSystem[] nitrusSmoke;
+    public ParticleSystem camSpeed;
     public GameObject fxSpeed;
     //public GameObject lights;
     private controller controller;
@@ -34,11 +35,13 @@ public class carEffects : MonoBehaviour
         {
             fxSpeed.SetActive(true);
             highSpeed = true;
+            camSpeed.Play();
         }
         else if (controller.gearNum < 4 && highSpeed)
         {
             fxSpeed.SetActive(false);
             highSpeed = false;
+            camSpeed.Stop();
         }
 }
 

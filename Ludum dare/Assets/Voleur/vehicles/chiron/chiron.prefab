@@ -492,7 +492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drive: 1
   test: 0
-  turnMultiplicateur: 1
+  turnMultiplicateur: 0.8
   handBrakeFrictionMultiplier: 10
   maxRPM: 8000
   minRPM: 5000
@@ -626,6 +626,7 @@ MonoBehaviour:
   - {fileID: 704100499267088010}
   - {fileID: 8347481596156122059}
   - {fileID: 5233677530776467507}
+  camSpeed: {fileID: 0}
   fxSpeed: {fileID: 6373448750240172396}
 --- !u!114 &2201421293988407811
 MonoBehaviour:

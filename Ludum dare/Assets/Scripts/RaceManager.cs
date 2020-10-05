@@ -21,6 +21,8 @@ public class RaceManager : MonoBehaviour
     public float totalTimer = 0.0f;
     public List<obstacle> obstaclesToReset = new List<obstacle>();
     bool canCollide = true;
+    public float multiplicateur;
+    public controller controller;
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -51,6 +53,11 @@ public class RaceManager : MonoBehaviour
                     bestLap = lapTimer;
                 lapTimer = 0f;
                 UIManager.Instance.laps.text = nbLaps.ToString();
+                foreach (var item in checkpoints)
+                {
+                    item.timeToReach *= 1 - multiplicateur;
+                }
+                controller.turnMultiplicateur *= 1 + multiplicateur;
             }
 
             foreach (obstacle o in obstaclesToReset)
