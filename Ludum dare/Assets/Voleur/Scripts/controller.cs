@@ -329,7 +329,7 @@ public class controller : MonoBehaviour
             if (wheelHit.collider && wheelHit.collider.tag == "OffRoad")
                 currentOffRoadValue = OffRoadMalus;
             else
-                currentOffRoadValue = 1;
+                currentOffRoadValue = 0;
                         
 
 			if(wheelHit.sidewaysSlip < 0 )	driftFactor = (1 + -Input.GetAxis("Horizontal")) * Mathf.Abs(wheelHit.sidewaysSlip) ;
